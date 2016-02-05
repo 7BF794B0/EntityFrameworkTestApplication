@@ -1,0 +1,219 @@
+######################################################################################################
+###############################################Storage1###############################################
+######################################################################################################
+
+source mssql1
+{
+	type			= odbc
+	odbc_dsn		= DSN=SphinxDriverForStorage1
+
+	mssql_winauth	= 1 # Flag mssql_winauth = 1 indicates that the connection to the server database, you must use Windows authentication.
+
+	sql_host		= ololo
+	sql_user		=
+	sql_pass		=
+	sql_db			= Storage1
+	sql_port		= 1433	# optional, default is 3306, for MS SQL is 1433
+}
+
+source src1 : mssql1
+{
+	sql_query = SELECT Id, First_Name, Last_Name, Age, Bio, Country, City FROM [User]
+
+	sql_field_string	= First_Name
+	sql_field_string	= Last_Name
+	sql_attr_uint		= Age
+	sql_field_string	= Bio
+	sql_field_string	= Country
+	sql_field_string	= City
+}
+
+index indexstore1
+{
+	source				= src1
+	path				= c:/sphinx/data/index/indexstore1
+	index_exact_words	= 1
+	morphology			= lemmatize_ru
+	min_infix_len		= 3
+}
+
+######################################################################################################
+###############################################Storage2###############################################
+######################################################################################################
+
+source mssql2
+{
+	type			= odbc
+	odbc_dsn		= DSN=SphinxDriverForStorage2
+
+	mssql_winauth	= 1
+
+	sql_host		= ololo
+	sql_user		=
+	sql_pass		=
+	sql_db			= Storage2
+	sql_port		= 1433
+}
+
+source src2 : mssql2
+{
+	sql_query = SELECT Id, First_Name, Last_Name, Age, Bio, Country, City FROM [User]
+
+	sql_field_string	= First_Name
+	sql_field_string	= Last_Name
+	sql_attr_uint		= Age
+	sql_field_string	= Bio
+	sql_field_string	= Country
+	sql_field_string	= City
+}
+
+index indexstore2
+{
+	source				= src2
+	path				= c:/sphinx/data/index/indexstore2
+	index_exact_words	= 1
+	morphology			= lemmatize_ru
+	min_infix_len		= 3
+}
+
+######################################################################################################
+###############################################Storage3###############################################
+######################################################################################################
+
+source mssql3
+{
+	type			= odbc
+	odbc_dsn		= DSN=SphinxDriverForStorage3
+
+	mssql_winauth	= 1
+
+	sql_host		= ololo
+	sql_user		=
+	sql_pass		=
+	sql_db			= Storage3
+	sql_port		= 1433
+}
+
+source src3 : mssql3
+{
+	sql_query = SELECT Id, First_Name, Last_Name, Age, Bio, Country, City FROM [User]
+
+	sql_field_string	= First_Name
+	sql_field_string	= Last_Name
+	sql_attr_uint		= Age
+	sql_field_string	= Bio
+	sql_field_string	= Country
+	sql_field_string	= City
+}
+
+index indexstore3
+{
+	source				= src3
+	path				= c:/sphinx/data/index/indexstore3
+	index_exact_words	= 1
+	morphology			= lemmatize_ru
+	min_infix_len		= 3
+}
+
+######################################################################################################
+###############################################Storage4###############################################
+######################################################################################################
+
+source mssql4
+{
+	type			= odbc
+	odbc_dsn		= DSN=SphinxDriverForStorage4
+
+	mssql_winauth	= 1
+
+	sql_host		= ololo
+	sql_user		=
+	sql_pass		=
+	sql_db			= Storage4
+	sql_port		= 1433
+}
+
+source src4 : mssql4
+{
+	sql_query = SELECT Id, First_Name, Last_Name, Age, Bio, Country, City FROM [User]
+
+	sql_field_string	= First_Name
+	sql_field_string	= Last_Name
+	sql_attr_uint		= Age
+	sql_field_string	= Bio
+	sql_field_string	= Country
+	sql_field_string	= City
+}
+
+index indexstore4
+{
+	source				= src4
+	path				= c:/sphinx/data/index/indexstore4
+	index_exact_words	= 1
+	morphology			= lemmatize_ru
+	min_infix_len		= 3
+}
+
+######################################################################################################
+###############################################Storage5###############################################
+######################################################################################################
+
+source mssql5
+{
+	type			= odbc
+	odbc_dsn		= DSN=SphinxDriverForStorage5
+
+	mssql_winauth	= 1
+
+	sql_host		= ololo
+	sql_user		=
+	sql_pass		=
+	sql_db			= Storage5
+	sql_port		= 1433
+}
+
+source src5 : mssql5
+{
+	sql_query = SELECT Id, First_Name, Last_Name, Age, Bio, Country, City FROM [User]
+
+	sql_field_string	= First_Name
+	sql_field_string	= Last_Name
+	sql_attr_uint		= Age
+	sql_field_string	= Bio
+	sql_field_string	= Country
+	sql_field_string	= City
+}
+
+index indexstore5
+{
+	source				= src5
+	path				= c:/sphinx/data/index/indexstore5
+	index_exact_words	= 1
+	morphology			= lemmatize_ru
+	min_infix_len		= 3
+}
+
+######################################################################################################
+######################################################################################################
+######################################################################################################
+
+indexer
+{
+	mem_limit = 500M
+}
+
+common
+{
+	lemmatizer_base = c:/sphinx/DICTS
+}
+
+searchd
+{
+	listen 					= 9312
+	listen					= 9306:mysql41 # listen indicates the local port on which to listen to the Sphinx, and mysql41 - that he will emulate MySQL and you can join it by using MySQLConnector.
+	pid_file				= c:/sphinx/data/searchd.pid
+	log						= c:/sphinx/data/log/log.txt
+	query_log				= c:/sphinx/data/log/query_log.txt
+	binlog_path				= c:/sphinx/data/binlog/
+	#mysql_version_string	= 5.0.0
+}
